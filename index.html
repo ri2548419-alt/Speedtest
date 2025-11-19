@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="bn">
+<!DOCTYPE html><html lang="bn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,36 +17,26 @@
     <p>Download Speed পরিমাপ করতে নিচে ক্লিক করুন</p>
     <button onclick="startTest()">Start Test</button>
     <div class="result" id="output"></div>
-  </div>
-
-  <script>
+  </div>  <script src="https://cdn.jsdelivr.net/npm/speedtest-net-browser/dist/speedtest.min.js"></script>  <script>
     async function startTest() {
       const output = document.getElementById('output');
       output.innerHTML = "Measuring...";
 
-      const fileUrl = "https://speed.hetzner.de/5MB.bin"; // test file
-      const start = new Date().getTime();
-
       try {
-        const response = await fetch(fileUrl);
-        const reader = response.body.getReader();
-        let received = 0;
-
-        while (true) {
-          const chunk = await reader.read();
-          if (chunk.done) break;
-          received += chunk.value.length;
-        }
-
-        const end = new Date().getTime();
-        const duration = (end - start) / 1000; // seconds
-        const mbps = ((received * 8) / duration / 1024 / 1024).toFixed(2);
-
-        output.innerHTML = `Download Speed: <b>${mbps} Mbps</b>`;
+        const test = new Speedtest({
+          onupdate: (data) => {
+            if (data.downloadProgress) {
+              output.innerHTML = `Download Speed: <b>${(data.downloadSpeed * 8).toFixed(2)} Mbps</b>`;
+            }
+          },
+          onend: (data) => {
+            output.innerHTML = `Download Speed: <b>${(data.downloadSpeed * 8).toFixed(2)} Mbps</b>` \n                           + `<br>Upload Speed: <b>${(data.uploadSpeed * 8).toFixed(2)} Mbps</b>` \n                           + `<br>Ping: <b>${data.ping} ms</b>`;
+          }
+        });
+        test.start();
       } catch (error) {
         output.innerHTML = "Error: Could not measure speed";
       }
     }
-  </script>
-</body>
+  </script></body>
 </html>
