@@ -5,38 +5,17 @@
   <title>Speed Test</title>
   <style>
     body { font-family: Arial, sans-serif; background:#f5f5f5; text-align:center; padding:40px; }
-    .card { background:#fff; padding:30px; max-width:400px; margin:auto; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,.1); }
-    button { padding:12px 22px; font-size:18px; border:none; background:#007bff; color:#fff; border-radius:10px; cursor:pointer; }
-    button:hover { background:#0056c0; }
-    .result { font-size:20px; margin-top:20px; }
+    .card { background:#fff; padding:30px; max-width:600px; margin:auto; border-radius:15px; box-shadow:0 0 20px rgba(0,0,0,.1); }
+    iframe { width:100%; height:500px; border:none; border-radius:10px; }
+    h2 { margin-bottom:20px; }
+    p { margin-bottom:30px; font-size:16px; }
   </style>
 </head>
 <body>
   <div class="card">
     <h2>Internet Speed Test</h2>
-    <p>Download Speed পরিমাপ করতে নিচে ক্লিক করুন</p>
-    <button onclick="startTest()">Start Test</button>
-    <div class="result" id="output"></div>
-  </div>  <script src="https://cdn.jsdelivr.net/npm/speedtest-net-browser/dist/speedtest.min.js"></script>  <script>
-    async function startTest() {
-      const output = document.getElementById('output');
-      output.innerHTML = "Measuring...";
-
-      try {
-        const test = new Speedtest({
-          onupdate: (data) => {
-            if (data.downloadProgress) {
-              output.innerHTML = `Download Speed: <b>${(data.downloadSpeed * 8).toFixed(2)} Mbps</b>`;
-            }
-          },
-          onend: (data) => {
-            output.innerHTML = `Download Speed: <b>${(data.downloadSpeed * 8).toFixed(2)} Mbps</b>` \n                           + `<br>Upload Speed: <b>${(data.uploadSpeed * 8).toFixed(2)} Mbps</b>` \n                           + `<br>Ping: <b>${data.ping} ms</b>`;
-          }
-        });
-        test.start();
-      } catch (error) {
-        output.innerHTML = "Error: Could not measure speed";
-      }
-    }
-  </script></body>
+    <p>নিচে আপনার ইন্টারনেট স্পিড পরীক্ষা করতে পারেন</p>
+    <iframe src="https://fast.com"></iframe>
+  </div>
+</body>
 </html>
